@@ -455,4 +455,17 @@ public class PQHelpers {
         }
     }
 
+    public static int heightOfTree(PQNode x) {
+        if (x.children.size() == 0) {
+            return 0;
+        }
+        int maximalHeight = 0;
+        for (PQNode i : x.children) {
+            if (heightOfTree(i) + 1 > maximalHeight) {
+                maximalHeight = 1 + heightOfTree(i);
+            }
+        }
+        return maximalHeight;
+    }
+
 }
