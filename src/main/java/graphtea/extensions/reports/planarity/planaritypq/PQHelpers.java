@@ -126,6 +126,7 @@ public class PQHelpers {
                 }
             }
         }
+        System.out.println(nodeBuf);
     }
 
     public static List<PQNode> frontier(PQNode x) {
@@ -456,16 +457,24 @@ public class PQHelpers {
     }
 
     public static int heightOfTree(PQNode x) {
+        HashMap<PQNode, Integer> map = new HashMap<PQNode, Integer>();
+        return heightOfTreeHelper(x, map);
+    }
+
+    public static int heightOfTreeHelper(PQNode x, HashMap<PQNode, Integer> map) {
         if (x.children.size() == 0) {
             return 0;
         }
-        int maximalHeight = 0;
-        for (PQNode i : x.children) {
-            if (heightOfTree(i) + 1 > maximalHeight) {
-                maximalHeight = 1 + heightOfTree(i);
+        if (!map.containsKey(x)) {
+            int maximalHeight = 0;
+            for (PQNode i : x.children) {
+                if (heightOfTreeHelper(i, map) + 1 > maximalHeight) {
+                    maximalHeight = 1 + heightOfTreeHelper(i, map);
+                }
             }
+            map.put(x, maximalHeight);
         }
-        return maximalHeight;
+        return map.get(x);
     }
 
 }
